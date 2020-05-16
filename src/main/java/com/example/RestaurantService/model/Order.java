@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Map;
 
 @Data
@@ -24,9 +22,12 @@ public class Order {
     private final OrderStatus orderStatus;
 
     @NonNull
-    private final Date orderPlacementTime;
+    private final Long orderPlacementTime;
 
     @NonNull
-    private final long orderDeliveryDuration;
+    private final String customerAddress;
 
+    private final User deliveryAgent;
+    private final long orderCompletionTime;
+    private final long orderPickupTime;
 }
