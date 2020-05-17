@@ -1,11 +1,17 @@
 package com.example.RestaurantService.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Embeddable;
+
 @Data
-@Builder
+@Embeddable
+@AllArgsConstructor
 public class OrderItem {
     public String itemId;
     public Integer quantity;
+
+    protected OrderItem() {}
 }

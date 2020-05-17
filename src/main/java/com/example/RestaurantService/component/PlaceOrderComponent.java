@@ -10,7 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 public class PlaceOrderComponent {
@@ -32,16 +35,16 @@ public class PlaceOrderComponent {
         final Map<Item, Integer> translatedItemsToQuantityMap = translateItemsToQuantityMap(orderItemsList);
 
         final Order order = Order.builder()
-                .Id(UUID.randomUUID().toString())
-                .itemsToQuantityMap(translatedItemsToQuantityMap)
+                .orderItemList(orderItemsList)
                 .orderPlacementTime(getCurrentTime())
                 .orderStatus(OrderStatus.IN_PREPARATION)
                 .customerAddress(customerAddress)
                 .totalAmount(calculateTotalAmount(translatedItemsToQuantityMap))
                 .build();
 
-        orderDAO.persistOrderInDb(order);
-        return order;
+        //TODO: The important step of assigning this order to a delivery person is pending.
+        // Will do so once the delivery service is up.
+        return orderDAO.persistOrderInDb(order);
     }
 
     private Double calculateTotalAmount(Map<Item, Integer> translatedItemsToQuantityMap) {

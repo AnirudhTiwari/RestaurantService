@@ -1,33 +1,44 @@
 package com.example.RestaurantService.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.Map;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
+@AllArgsConstructor
+@Entity
 @Builder
+@Table(name = "CustomerOrders")
 public class Order {
-    @NonNull
-    private final String Id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "order_items", joinColumns = @JoinColumn(name = "order_id"))
     @NonNull
-    private final Map<Item, Integer> itemsToQuantityMap;
+    private List<OrderItem> orderItemList;
 
     @NonNull
     private Double totalAmount;
 
     @NonNull
-    private final OrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
     @NonNull
-    private final Long orderPlacementTime;
+    private Long orderPlacementTime;
 
     @NonNull
-    private final String customerAddress;
+    private String customerAddress;
 
-    private final User deliveryAgent;
-    private final long orderCompletionTime;
-    private final long orderPickupTime;
+    private Long deliveryAgentId;
+    private Long orderCompletionTime;
+    private Long orderPickupTime;
+
+    protected Order() {}
 }

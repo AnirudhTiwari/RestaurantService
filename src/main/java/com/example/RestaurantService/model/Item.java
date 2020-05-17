@@ -1,15 +1,22 @@
 package com.example.RestaurantService.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+@AllArgsConstructor
 @Data
 @Builder
 public class Item {
-    @NonNull
-    private final String id;
+
+    @NonNull @Id
+    private String id;
 
     @NonNull
-    private final Double price;
+    private Double price;
+
+    protected Item() {}
+
 }

@@ -8,7 +8,7 @@ import lombok.NonNull;
 @Builder
 public class PlaceOrderResponse {
     @NonNull
-    private final String orderId;
+    private final Long orderId;
 
     @NonNull
     private final String orderStatus;
