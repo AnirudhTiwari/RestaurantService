@@ -1,18 +1,18 @@
 package com.example.RestaurantService.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
-import java.util.Map;
+import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlaceOrderRequest {
 
     @NonNull
-    private final Map<String, Integer> itemIdToQuantityMap;
+    private List<OrderItem> itemsList;
 
     @NonNull
-    private final String address;
+    private String address;
 }

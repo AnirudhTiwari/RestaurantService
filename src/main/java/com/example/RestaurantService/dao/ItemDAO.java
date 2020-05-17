@@ -6,6 +6,9 @@ import lombok.NonNull;
 public class ItemDAO {
     public Item getItem(@NonNull final String id) {
         //Insert code to access the db to access the item from the item table.
-        return Item.builder().id(id).build();
+        return Item.builder()
+                .id(id)
+                .price(64.0)
+                .build();
     }
 }

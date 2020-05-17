@@ -4,15 +4,13 @@ import com.example.RestaurantService.dao.ItemDAO;
 import com.example.RestaurantService.dao.OrderDAO;
 import com.example.RestaurantService.model.Item;
 import com.example.RestaurantService.model.Order;
+import com.example.RestaurantService.model.OrderItem;
 import com.example.RestaurantService.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @AllArgsConstructor
 public class PlaceOrderComponent {
@@ -27,10 +25,11 @@ public class PlaceOrderComponent {
      * Creates an order by sending a request to the Delivery service to assign a delivery agent.
      *
      * @param @{itemsToQuantityMap}
+     * @param orderItemsList
      * @return @{Order}
      */
-    public Order placeOrder(@NonNull final Map<String, Integer> itemsToQuantityMap, @NonNull final String customerAddress) {
-        final Map<Item, Integer> translatedItemsToQuantityMap = translateItemsToQuantityMap(itemsToQuantityMap);
+    public Order placeOrder(final List<OrderItem> orderItemsList, @NonNull final String customerAddress) {
+        final Map<Item, Integer> translatedItemsToQuantityMap = translateItemsToQuantityMap(orderItemsList);
 
         final Order order = Order.builder()
                 .Id(UUID.randomUUID().toString())
@@ -61,14 +60,12 @@ public class PlaceOrderComponent {
         return date.getTime();
     }
 
-    private Map<Item, Integer> translateItemsToQuantityMap(final Map<String, Integer> itemsToQuantityMap) {
+    private Map<Item, Integer> translateItemsToQuantityMap(final List<OrderItem> orderItemList) {
         final HashMap<Item, Integer> translatedItemsToQuantityMap = new HashMap<>();
 
-        for (Map.Entry<String, Integer> entry : itemsToQuantityMap.entrySet()) {
-            final String itemId = entry.getKey();
-            final Integer quantity = entry.getValue();
-            final Item item = getItemFromDao(itemId);
-            translatedItemsToQuantityMap.put(item, quantity);
+        for (OrderItem orderItem : orderItemList) {
+            final Item item = getItemFromDao(orderItem.itemId);
+            translatedItemsToQuantityMap.put(item, orderItem.quantity);
         }
 
         return translatedItemsToQuantityMap;
