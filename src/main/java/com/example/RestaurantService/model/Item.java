@@ -4,11 +4,13 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @AllArgsConstructor
 @Data
 @Builder
+@Table(name = "Items")
 public class Item {
 
     @NonNull @Id

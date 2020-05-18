@@ -1,7 +1,7 @@
 package com.example.RestaurantService.model;
 
 public enum OrderStatus {
-    IN_PREPARATION,
+    PREPARING,
     IN_TRANSIT,
     DELIVERED,
     CANCELLED,

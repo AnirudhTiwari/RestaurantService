@@ -1,5 +1,6 @@
 package com.example.RestaurantService.configuration;
 
+import com.example.RestaurantService.controller.GetOrderStatusController;
 import com.example.RestaurantService.controller.PlaceOrderController;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -13,5 +14,9 @@ public class ControllerConfiguration {
 
     public PlaceOrderController getPlaceOrderController() {
         return new PlaceOrderController(activityConfiguration.getPlaceOrderActivity());
+    }
+
+    public GetOrderStatusController getGetOrderStatusController() {
+        return new GetOrderStatusController(activityConfiguration.getGetOrderStatusActivity());
     }
 }

@@ -1,7 +1,8 @@
 package com.example.RestaurantService.component;
 
-import com.example.RestaurantService.dao.ItemDAO;
-import com.example.RestaurantService.dao.OrderDAO;
+import com.example.RestaurantService.accessor.DeliveryServiceAccessor;
+import com.example.RestaurantService.dao.ItemDao;
+import com.example.RestaurantService.dao.OrderDao;
 import com.example.RestaurantService.model.Item;
 import com.example.RestaurantService.model.Order;
 import com.example.RestaurantService.model.OrderItem;
@@ -10,41 +11,48 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @AllArgsConstructor
 public class PlaceOrderComponent {
 
     @Autowired
-    private final ItemDAO itemDAO;
+    private final ItemDao itemDAO;
 
     @Autowired
-    private final OrderDAO orderDAO;
+    private final OrderDao orderDAO;
+
+    @Autowired
+    private final DeliveryServiceAccessor deliveryServiceAccessor;
 
     /**
      * Creates an order by sending a request to the Delivery service to assign a delivery agent.
      *
      * @param @{itemsToQuantityMap}
      * @param orderItemsList
+     * @param customerAddress
      * @return @{Order}
      */
-    public Order placeOrder(final List<OrderItem> orderItemsList, @NonNull final String customerAddress) {
+    public Order placeOrder(@NonNull final List<OrderItem> orderItemsList, @NonNull final String customerAddress) {
         final Map<Item, Integer> translatedItemsToQuantityMap = translateItemsToQuantityMap(orderItemsList);
 
-        final Order order = Order.builder()
+        final Order order = buildOrder(orderItemsList, translatedItemsToQuantityMap, customerAddress);
+
+        final Order persistedOrder = orderDAO.persistOrderInDb(order);
+        deliveryServiceAccessor.assignOrderToDeliveryService(persistedOrder.getId());
+
+        return persistedOrder;
+    }
+
+    private Order buildOrder(final List<OrderItem> orderItemsList, final Map<Item, Integer> translatedItemsToQuantityMap
+            , final String customerAddress) {
+        return Order.builder()
                 .orderItemList(orderItemsList)
                 .orderPlacementTime(getCurrentTime())
-                .orderStatus(OrderStatus.IN_PREPARATION)
+                .orderStatus(OrderStatus.PREPARING)
                 .customerAddress(customerAddress)
                 .totalAmount(calculateTotalAmount(translatedItemsToQuantityMap))
                 .build();
-
-        //TODO: The important step of assigning this order to a delivery person is pending.
-        // Will do so once the delivery service is up.
-        return orderDAO.persistOrderInDb(order);
     }
 
     private Double calculateTotalAmount(Map<Item, Integer> translatedItemsToQuantityMap) {
@@ -75,6 +83,12 @@ public class PlaceOrderComponent {
     }
 
     private Item getItemFromDao(final String itemId) {
-        return itemDAO.getItem(itemId);
+        final Optional<Item> item = itemDAO.getItem(itemId);
+        if (item.isPresent()) {
+            return item.get();
+        } else {
+            final String errorMsg = String.format("Item with ID: %s not found", itemId);
+            throw new NoSuchElementException(errorMsg);
+        }
     }
 }

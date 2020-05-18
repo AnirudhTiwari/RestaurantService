@@ -20,7 +20,6 @@ public class PlaceOrderController {
 
     @PostMapping("/placeOrder")
     public PlaceOrderResponse PlaceOrder(@RequestBody PlaceOrderRequest placeOrderRequest) {
-        System.out.println(placeOrderRequest);
         return placeOrderActivity.placeOrder(placeOrderRequest);
     }
 }
