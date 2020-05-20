@@ -2,6 +2,7 @@ package com.example.RestaurantService.configuration;
 
 import com.example.RestaurantService.activity.GetOrderStatusActivity;
 import com.example.RestaurantService.activity.PlaceOrderActivity;
+import com.example.RestaurantService.activity.UpdateOrderActivity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,5 +22,10 @@ public class ActivityConfiguration {
     @Bean
     public GetOrderStatusActivity getGetOrderStatusActivity() {
         return new GetOrderStatusActivity(componentConfiguration.getGetOrderStatusComponent());
+    }
+
+    @Bean
+    public UpdateOrderActivity getUpdateOrderActivity() {
+        return new UpdateOrderActivity(componentConfiguration.getUpdateOrderComponent());
     }
 }

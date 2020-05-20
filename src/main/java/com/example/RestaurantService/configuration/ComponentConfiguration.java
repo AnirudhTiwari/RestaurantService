@@ -2,6 +2,7 @@ package com.example.RestaurantService.configuration;
 
 import com.example.RestaurantService.component.GetOrderStatusComponent;
 import com.example.RestaurantService.component.PlaceOrderComponent;
+import com.example.RestaurantService.component.UpdateOrderComponent;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,11 @@ public class ComponentConfiguration {
     @Bean
     public GetOrderStatusComponent getGetOrderStatusComponent() {
         return new GetOrderStatusComponent(daoConfiguration.getOrderDAO());
+    }
+
+    @Bean
+    public UpdateOrderComponent getUpdateOrderComponent() {
+        return new UpdateOrderComponent(daoConfiguration.getOrderDAO());
     }
 
 }

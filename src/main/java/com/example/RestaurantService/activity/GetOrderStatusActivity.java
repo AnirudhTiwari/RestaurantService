@@ -14,10 +14,6 @@ public class GetOrderStatusActivity {
 
     public GetOrderStatusResponse GetOrderStatus(@NonNull final GetOrderStatusRequest getOrderStatusRequest) {
         final Long orderID = getOrderStatusRequest.getOrderId();
-        final String orderStatus = getOrderStatusComponent.getOrderStatus(orderID);
-        return GetOrderStatusResponse.builder()
-                .orderId(orderID)
-                .orderStatus(orderStatus)
-                .build();
+        return getOrderStatusComponent.getOrderStatus(orderID);
     }
 }

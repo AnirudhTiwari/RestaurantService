@@ -28,6 +28,7 @@ public class Order {
     private Double totalAmount;
 
     @NonNull
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @NonNull
@@ -37,8 +38,19 @@ public class Order {
     private String customerAddress;
 
     private Long deliveryAgentId;
+
     private Long orderCompletionTime;
+
+    public void setOrderCompletionTime(Long orderCompletionTime) {
+        this.orderCompletionTime = this.orderCompletionTime == null ? orderCompletionTime : this.orderCompletionTime;
+    }
+
     private Long orderPickupTime;
+
+    public void setOrderPickupTime(Long orderPickupTime) {
+        this.orderPickupTime = this.orderPickupTime == null ? orderPickupTime : this.orderPickupTime;
+    }
+    private String deliveryAgentName;
 
     protected Order() {}
 }

@@ -2,8 +2,10 @@ package com.example.RestaurantService.configuration;
 
 import com.example.RestaurantService.controller.GetOrderStatusController;
 import com.example.RestaurantService.controller.PlaceOrderController;
+import com.example.RestaurantService.controller.UpdateOrderController;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -18,5 +20,9 @@ public class ControllerConfiguration {
 
     public GetOrderStatusController getGetOrderStatusController() {
         return new GetOrderStatusController(activityConfiguration.getGetOrderStatusActivity());
+    }
+
+    public UpdateOrderController getUpdateOrderController() {
+        return new UpdateOrderController(activityConfiguration.getUpdateOrderActivity());
     }
 }

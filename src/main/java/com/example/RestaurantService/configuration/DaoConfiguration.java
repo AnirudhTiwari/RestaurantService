@@ -16,4 +16,5 @@ public class DaoConfiguration {
     public OrderDao getOrderDAO() {
         return new OrderDao();
     }
+
 }
